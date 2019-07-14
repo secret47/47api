@@ -1,0 +1,129 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 50717
+ Source Host           : localhost:3306
+ Source Schema         : 47blog
+
+ Target Server Type    : MySQL
+ Target Server Version : 50717
+ File Encoding         : 65001
+
+ Date: 14/07/2019 22:56:53
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for article
+-- ----------------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article`  (
+  `aid` int(11) NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `cid` int(11) NULL DEFAULT NULL,
+  `author` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '作者',
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '内容',
+  `createDate` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`aid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for catalog
+-- ----------------------------
+DROP TABLE IF EXISTS `catalog`;
+CREATE TABLE `catalog`  (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of catalog
+-- ----------------------------
+INSERT INTO `catalog` VALUES (1, '日志');
+INSERT INTO `catalog` VALUES (2, '学习');
+INSERT INTO `catalog` VALUES (3, '碎碎念');
+
+-- ----------------------------
+-- Table structure for routers
+-- ----------------------------
+DROP TABLE IF EXISTS `routers`;
+CREATE TABLE `routers`  (
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `uid` int(11) NULL DEFAULT NULL,
+  `rid` int(11) NULL DEFAULT NULL,
+  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  INDEX `uid`(`uid`) USING BTREE,
+  INDEX `rid`(`rid`) USING BTREE,
+  CONSTRAINT `rid` FOREIGN KEY (`rid`) REFERENCES `userroles` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tags
+-- ----------------------------
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE `tags`  (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`  (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'yang47', '123456');
+
+-- ----------------------------
+-- Table structure for userinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `userinfo`;
+CREATE TABLE `userinfo`  (
+  `uid` int(11) NOT NULL,
+  `avatarUrl` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
+  `gender` int(255) NULL DEFAULT NULL COMMENT '1=’男‘，\r\n2=’女‘\r\n3=’未知‘',
+  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '个人介绍',
+  PRIMARY KEY (`uid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userinfo
+-- ----------------------------
+INSERT INTO `userinfo` VALUES (1, 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562864634002&di=6e3d6d9db579321eb48e6715fc030682&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201408%2F05%2F20140805182358_CckFB.thumb.700_0.png', '杨小花', 1, 18, '一个可爱的前端小妹儿');
+
+-- ----------------------------
+-- Table structure for userroles
+-- ----------------------------
+DROP TABLE IF EXISTS `userroles`;
+CREATE TABLE `userroles`  (
+  `id` int(255) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `rolesname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userroles
+-- ----------------------------
+INSERT INTO `userroles` VALUES (1, 1, 'admin');
+
+SET FOREIGN_KEY_CHECKS = 1;
