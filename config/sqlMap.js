@@ -12,8 +12,15 @@ let sql = {
         queryInfo:'select * from userinfo where uid = ?'
     },
     articles:{
-    	queryCatalogs:"select * from catalog"
-    }
+        //查询所有分类
+    	queryCatalogs:"select * from catalog",
+        //新建标签
+        addTags:"insert into tags(id,name) values(0,?)",
+        //新建文章
+        createArticles:"insert into article(id,title,author,cid,content,createDate) values(0,?,?,?,?,?)"
+        
+
+     }
 }
 
 module.exports = sql;

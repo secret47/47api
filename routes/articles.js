@@ -19,7 +19,6 @@ router.use((req, res, next) => {
 
 //得到分类
 router.get('/getCatalogs',(req,res)=>{
-
 	let sql = $sql.articles.queryCatalogs
 	conn.query(sql, (err, result) => {
 		if (err) {
@@ -32,6 +31,13 @@ router.get('/getCatalogs',(req,res)=>{
 		}
 	})
 })
+
+//新建文章
+router.post('/create',(req,res)=>{
+	let sql = $sql.articles.createArticles;
+	
+})
+
 
 
 module.exports = router;
