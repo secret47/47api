@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : 65001
 
- Date: 14/07/2019 22:56:53
+ Date: 15/07/2019 22:52:49
 */
 
 SET NAMES utf8mb4;
@@ -40,13 +40,6 @@ CREATE TABLE `catalog`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of catalog
--- ----------------------------
-INSERT INTO `catalog` VALUES (1, '日志');
-INSERT INTO `catalog` VALUES (2, '学习');
-INSERT INTO `catalog` VALUES (3, '碎碎念');
 
 -- ----------------------------
 -- Table structure for routers
@@ -87,11 +80,6 @@ CREATE TABLE `user`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES (1, 'yang47', '123456');
-
--- ----------------------------
 -- Table structure for userinfo
 -- ----------------------------
 DROP TABLE IF EXISTS `userinfo`;
@@ -106,11 +94,6 @@ CREATE TABLE `userinfo`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of userinfo
--- ----------------------------
-INSERT INTO `userinfo` VALUES (1, 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562864634002&di=6e3d6d9db579321eb48e6715fc030682&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201408%2F05%2F20140805182358_CckFB.thumb.700_0.png', '杨小花', 1, 18, '一个可爱的前端小妹儿');
-
--- ----------------------------
 -- Table structure for userroles
 -- ----------------------------
 DROP TABLE IF EXISTS `userroles`;
@@ -120,10 +103,5 @@ CREATE TABLE `userroles`  (
   `rolesname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of userroles
--- ----------------------------
-INSERT INTO `userroles` VALUES (1, 1, 'admin');
 
 SET FOREIGN_KEY_CHECKS = 1;
