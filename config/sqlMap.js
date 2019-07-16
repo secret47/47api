@@ -17,8 +17,7 @@ let sql = {
         //新建标签
         addTags:"insert into tags(id,name) values(0,?)",
         //新建文章
-        createArticles:"insert into article(id,title,author,cid,content,createDate) values(0,?,?,?,?,?)"
-        
+        createArticles:"insert into article(aid,title,author,cid,content,createDate) values(0,?,?,?,?,now())",
 
      }
 }

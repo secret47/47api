@@ -66,8 +66,11 @@ router.post('/login', (req, res) => {
 				let data = result[0];
 				//添加token
 				const token = Token.encrypt({ id: data.id}, '15d');
-				resData.uid = data.id
-				resData.token = token
+
+				resData.data = {
+					uid:data.id,
+					token:token
+				}
 				res.json(resData)
 			}
 		}
@@ -75,7 +78,7 @@ router.post('/login', (req, res) => {
 })
 
 
-//得到用户角色
+//得到用户信息
 router.get('/getInfo',(req,res)=>{
 	let sql = $sql.user.queryInfo;
 	let params = req.query;
