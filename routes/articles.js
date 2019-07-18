@@ -96,4 +96,24 @@ router.get('/getArticles', (req, res) => {
         }
     })
 })
+//
+//新增分类
+router.post('/addCatalog',(req,res)=>{
+    let sql =  $sql.articles.addCatalog
+    let name = req.body.name
+    conn.query(sql, [name], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            if (result.length > 0) {
+                resData.message = '添加成功！'
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
+})
 module.exports = router;
