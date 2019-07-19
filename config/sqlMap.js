@@ -14,7 +14,10 @@ let sql = {
     articles: {
         //查询所有分类
         queryCatalogs: "select * from catalog",
-        addCatalog:"insert into catalog(id,name) values(0,?)",
+        //新建分类
+        addCatalog:"insert into catalog(id,cname,cdesc) values(0,?,?)",
+        //删除分类
+        delCatalog:"delete from catalog where id = ? ",
         //新建标签
         addTags: "insert into tags(id,name) values(0,?)",
 
@@ -28,7 +31,10 @@ let sql = {
         queryNum: "SELECT COUNT(*) FROM table_name",
         //更改文章
         update: "update article set title = ?,cid=?,content = ? where aid = ?",
-
+        //根据姓名查找
+        searchForName:"",
+        //根据标题查找
+        searchForTitle:"select * from article where title like ?"
     }
 }
 module.exports = sql;

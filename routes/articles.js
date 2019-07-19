@@ -36,8 +36,7 @@ router.get('/getCatalogs', (req, res) => {
 router.get('/getList', (req, res) => {
     let currentPage = req.query.currentPage || 1;
     let pageSize = req.query.pageSize || 10
-
-    let sql =  'SELECT * FROM article limit ' + pageSize + ' offset ' + pageSize * (currentPage - 1);
+    let sql = 'SELECT * FROM article,catalog where article.cid = catalog.id limit ' + pageSize + ' offset ' + pageSize * (currentPage - 1);
     // let sql1 = 'SELECT found_rows() AS rowcount;'
     conn.query(sql, [currentPage, pageSize], (err, result) => {
         if (err) {
@@ -75,10 +74,43 @@ router.post('/create', (req, res) => {
     })
 })
 //删除文章
+router.post('/del', (req, res) => {
+    let sql = $sql.articles.delete;
+    let param = req.body
+    conn.query(sql, [param.aid], (err, result) => {
+        if (err) {
+            resData.message = "删除失败"
+            console.log(err, 'err')
+        } else {
+            if (result.length == 0) {
+                resData.code = 'failed';
+                resData.message = "没有找到你的文章哦~";
+                res.json(resData)
+            } else {
+                resData.message = "删除成功！"
+                res.json(resData)
+            }
+        }
+    })
+})
 //修改文章
+router.post('/update', (req, res) => {
+    let sql = $sql.articles.update;
+    let params = req.body;
+    conn.query(sql, [params.title, params.cid, params.content, params.aid], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result);
+            resData.message = "更改成功"
+            res.json(resData)
+        }
+    })
+})
 //根据id得到文章
 router.get('/getArticles', (req, res) => {
-    let sql =  $sql.articles.queryForId
+    let sql = $sql.articles.queryForId
     let aid = req.query.aid
     conn.query(sql, [aid], (err, result) => {
         if (err) {
@@ -96,18 +128,50 @@ router.get('/getArticles', (req, res) => {
         }
     })
 })
-//
 //新增分类
-router.post('/addCatalog',(req,res)=>{
-    let sql =  $sql.articles.addCatalog
-    let name = req.body.name
-    conn.query(sql, [name], (err, result) => {
+router.post('/addCatalog', (req, res) => {
+    let sql = $sql.articles.addCatalog
+    let cname = req.body.cname
+    let cdesc = req.body.cdesc
+    conn.query(sql, [cname, cdesc], (err, result) => {
         if (err) {
             console.log(err)
         }
         if (result) {
+            resData.message = '添加成功！'
+            res.json(resData)
+        }
+    })
+})
+//删除分类
+router.get('/delCatalog', (req, res) => {
+    let sql = $sql.articles.delCatalog
+    let id = req.query.id
+    conn.query(sql, [id], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            resData.message = '删除成功！'
+            res.json(resData)
+        }
+    })
+})
+
+
+//查询(不分页)
+router.get('/searchForTitle', (req, res) => {
+    let sql = $sql.articles.searchForTitle
+    let title = req.query.title
+    title = '%' + title + '%'
+    conn.query(sql, [title], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result)
             if (result.length > 0) {
-                resData.message = '添加成功！'
+                resData.data = result;
             } else {
                 resData.code = 'failed'
                 resData.message = '没有更多数据了'
