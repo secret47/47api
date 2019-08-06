@@ -20,9 +20,10 @@ let sql = {
         delCatalog:"delete from catalog where id = ? ",
         //新建标签
         addTags: "insert into tags(id,name) values(0,?)",
-
+        //查询所有标签
+        queryTags :"select * from tags",
         //新建文章
-        createArticles: "insert into article(aid,title,author,cid,content,createDate) values(0,?,?,?,?,now())",
+        createArticles: "insert into article(aid,title,author,cid,description,coverImg,tags,content,createDate) values(0,?,?,?,?,?,?,?,now())",
         //删除文章
         delete: "delete from article where aid = ? ",
         //根据id查询文章

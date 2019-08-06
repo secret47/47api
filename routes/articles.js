@@ -58,7 +58,8 @@ router.get('/getList', (req, res) => {
 router.post('/create', (req, res) => {
     let sql = $sql.articles.createArticles;
     let params = req.body;
-    conn.query(sql, [params.title, params.author, params.cid, params.content, params.createDate], (err, result) => {
+    console.log(params)
+    conn.query(sql, [params.title, params.author, params.cid,params.desc,params.coverImg,params.tags,params.content, params.createDate], (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -159,6 +160,41 @@ router.get('/delCatalog', (req, res) => {
 })
 
 
+//新建标签
+router.post('/newTags',(req,res)=>{
+    let sql = $sql.articles.addTags;
+    let name = req.body.name;
+    conn.query(sql,[name],(err,result)=>{
+         if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result)
+            resData.message = '创建标签成功'
+            res.json(resData)
+        }
+    })
+})
+
+router.get('/getTags',(req,res)=>{
+    let sql = $sql.articles.queryTags;
+    conn.query(sql,[],(err,result)=>{
+         if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result)
+             if (result.length > 0) {
+                resData.data = result;
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
+})
+
 //查询(不分页)
 router.get('/searchForTitle', (req, res) => {
     let sql = $sql.articles.searchForTitle
@@ -180,4 +216,5 @@ router.get('/searchForTitle', (req, res) => {
         }
     })
 })
-module.exports = router;
+
+module.exports = router;    
