@@ -59,7 +59,7 @@ router.post('/create', (req, res) => {
     let sql = $sql.articles.createArticles;
     let params = req.body;
     console.log(params)
-    conn.query(sql, [params.title, params.author, params.cid,params.desc,params.coverImg,params.tags,params.content, params.createDate], (err, result) => {
+    conn.query(sql, [params.title, params.author, params.cid, params.desc, params.coverImg, params.tags, params.content, params.createDate], (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -158,14 +158,12 @@ router.get('/delCatalog', (req, res) => {
         }
     })
 })
-
-
 //新建标签
-router.post('/newTags',(req,res)=>{
+router.post('/newTags', (req, res) => {
     let sql = $sql.articles.addTags;
     let name = req.body.name;
-    conn.query(sql,[name],(err,result)=>{
-         if (err) {
+    conn.query(sql, [name], (err, result) => {
+        if (err) {
             console.log(err)
         }
         if (result) {
@@ -175,16 +173,16 @@ router.post('/newTags',(req,res)=>{
         }
     })
 })
-
-router.get('/getTags',(req,res)=>{
+//得到所有的标签
+router.get('/getTags', (req, res) => {
     let sql = $sql.articles.queryTags;
-    conn.query(sql,[],(err,result)=>{
-         if (err) {
+    conn.query(sql, [], (err, result) => {
+        if (err) {
             console.log(err)
         }
         if (result) {
             console.log(result)
-             if (result.length > 0) {
+            if (result.length > 0) {
                 resData.data = result;
             } else {
                 resData.code = 'failed'
@@ -194,8 +192,7 @@ router.get('/getTags',(req,res)=>{
         }
     })
 })
-
-//查询(不分页)
+//查询(不分页)  根据标题查询   模糊查询
 router.get('/searchForTitle', (req, res) => {
     let sql = $sql.articles.searchForTitle
     let title = req.query.title
@@ -217,4 +214,4 @@ router.get('/searchForTitle', (req, res) => {
     })
 })
 
-module.exports = router;    
+module.exports = router;
