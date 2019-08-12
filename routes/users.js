@@ -90,7 +90,6 @@ router.get('/getInfo',(req,res)=>{
 			console.log(result);
 			resData.message = "查询成功"
 			let userInfo = result[0];
-			userInfo.birthday = new Date(userInfo.birthday);
 			resData.data = userInfo
 			res.json(resData)
 		}
