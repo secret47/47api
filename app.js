@@ -56,7 +56,6 @@ app.use((req, res, next) => {
 })
 
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
-
 	var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;
     console.log(pathNew);
     fs.rename(req.file.path, pathNew, function (err) {
@@ -84,9 +83,9 @@ app.post('/upload/imgs', uploads.single('file'), (req, res) => {
 	        });
 
         }
-    });
-
-       
-   
+    });  
 })
+
+
+
 module.exports = app;
