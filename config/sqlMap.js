@@ -37,6 +37,11 @@ let sql = {
         searchForName: "",
         //根据标题查找
         searchForTitle: "select * from article where title like ?"
+    },
+    blog: {
+        //上一页数据
+        queryPre: "select * from article where aid < ? order by aid desc limit 1",
+        queryNext: "select * from article where aid > ? order by aid asc limit 1"
     }
 }
 module.exports = sql;

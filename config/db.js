@@ -5,6 +5,7 @@ module.exports = {
         user: 'root',//用户名
         password: '1234', //密码
         database: '47blog', //数据库名称
-        port: '3306' //端口
+        port: '3306', //端口
+        multipleStatements: true //多条查询
     }
 }

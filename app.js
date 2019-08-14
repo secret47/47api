@@ -34,9 +34,13 @@ app.use(function(req, res, next) {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles')
+var blogRouter = require('./routes/blog')
+
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/articles', articlesRouter)
+app.use('/blog', blogRouter)
+
 
 //新浪云储存使用
 sinaCloud.config.loadFromPath('./config/scs.json')

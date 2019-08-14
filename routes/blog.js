@@ -14,7 +14,6 @@ router.use((req, res, next) => {
     }
     next()
 })
-
 //查询文章列表(未分页)
 router.get('/getList', (req, res) => {
     let currentPage = req.query.currentPage || 1;
@@ -37,7 +36,46 @@ router.get('/getList', (req, res) => {
         }
     })
 })
-
-
-
+//得到上一页数据
+router.get('/getPre', (req, res) => {
+    let sql = $sql.blog.queryPre;
+    let aid = req.query.aid
+    conn.query(sql, [aid], (err, result) => {
+        console.log()
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result,'上一页')
+            if (result.length > 0) {
+                resData.data = result[0];
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
+})
+//得到下一篇
+router.get('/getNext', (req, res) => {
+    let sql = $sql.blog.queryNext;
+    let aid = req.query.aid
+    conn.query(sql, [aid], (err, result) => {
+        console.log()
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            console.log(result,'下一页')
+            if (result.length > 0) {
+                resData.data = result[0];
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
+})
 module.exports = router;
