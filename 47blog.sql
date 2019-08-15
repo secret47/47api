@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-08-09 10:47:57
+Date: 2019-08-15 20:16:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,6 +53,20 @@ CREATE TABLE `catalog` (
   `cdesc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `container` varchar(255) DEFAULT NULL,
+  `aid` int(11) DEFAULT NULL,
+  `createDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for routers

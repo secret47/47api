@@ -41,7 +41,14 @@ let sql = {
     blog: {
         //上一页数据
         queryPre: "select * from article where aid < ? order by aid desc limit 1",
-        queryNext: "select * from article where aid > ? order by aid asc limit 1"
+        queryNext: "select * from article where aid > ? order by aid asc limit 1",
+        //提交评论
+        referRemark:"insert into comment(id,nickname,contact,container,aid,createDate) values(0,?,?,?,?,now())",
+        //查询当前文章的评论
+        queryRemark:"SELECT container,nickname,createDate FROM comment WHERE aid = ?",
+        queryForYear:"select * from article where year(createDate) = ?",
+        //查询文章所有的年份
+        queryYear:"select DISTINCT YEAR(createDate) as year from article",
     }
 }
 module.exports = sql;
