@@ -101,7 +101,7 @@ router.get('/queryRemark', (req, res) => {
             console.log(err)
         }
         if (result) {
-            if (resData.length > 0) {
+            if (result.length > 0) {
                 resData.data = result
             } else {
                 resData.code = 'failed'
@@ -127,37 +127,48 @@ router.post('/referRemark', (req, res) => {
 })
 //查询文章列表(未分页)
 router.get('/getAllList', (req, res) => {
-    let sql = $sql.blog.queryYear;
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-        }
-        if (result) {
-            console.log(result)
-            if (result.length > 0) {
-                let data = result
-                console.log(data)
-                data.forEach(item => {
-                    let year = item.year;
-                    let list = getList(year);
-                    console.log(list)
-                    item.articleLists = list
-                })
-                console.log(data)
-                resData.data = data
-            } else {
-                resData.code = 'failed'
-                resData.message = '没有更多数据了'
-            }
+    getYear().then(result => {
+        result.map(v => {
+            getList(v.year).then(result1 => {
+                v.articleList = result1;
+            }).catch(err => {
+                console.log(err)
+            })
+        })
+        setTimeout(() => {
+            resData.data = result
             res.json(resData)
-        }
+        }, 300);
+    }).catch(err => {
+        console.log(err)
     })
 })
 
-function getList(year,callback) {
+function getYear() {
+    let sql = $sql.blog.queryYear;
+    return new Promise((resolve, reject) => {
+        conn.query(sql, (err, result) => {
+            if (err) {
+                reject(err)
+            }
+            if (result) {
+                resolve(result)
+            }
+        })
+    })
+}
+
+function getList(year) {
     let sqlForYear = $sql.blog.queryForYear;
-    conn.query(sqlForYear, [year], (err1, result1) => {
-       calback(result1)
+    return new Promise((resolve, reject) => {
+        conn.query(sqlForYear, [year], (err, result) => {
+            if (err) {
+                reject(err)
+            }
+            if (result) {
+                resolve(result)
+            }
+        })
     })
 }
 module.exports = router;

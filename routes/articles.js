@@ -22,7 +22,6 @@ router.get('/getCatalogs', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result);
             if (result.length > 0) {
                 resData.data = result;
             } else {
@@ -43,7 +42,6 @@ router.get('/getList', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result)
             if (result.length > 0) {
                 resData.data = result;
             } else {
@@ -64,7 +62,6 @@ router.post('/create', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result);
             let aid = result.insertId;
             resData.data = {
                 'aid': aid
@@ -118,7 +115,7 @@ router.get('/getArticles', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result)
+            console.log(result,'得到文章')
             if (result.length > 0) {
                 resData.data = result[0];
             } else {
@@ -181,7 +178,6 @@ router.get('/getTags', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result)
             if (result.length > 0) {
                 resData.data = result;
             } else {
@@ -202,7 +198,6 @@ router.get('/searchForTitle', (req, res) => {
             console.log(err)
         }
         if (result) {
-            console.log(result)
             if (result.length > 0) {
                 resData.data = result;
             } else {
