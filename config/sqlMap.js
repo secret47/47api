@@ -49,6 +49,10 @@ let sql = {
         queryForYear:"select * from article where year(createDate) = ?",
         //查询文章所有的年份
         queryYear:"select DISTINCT YEAR(createDate) as year from article",
+    },
+    system:{
+        setSysInfo:"insert into webInfo(title,topImg) values(?,?)",
+        getSysInfo:"select * from webInfo"
     }
 }
 module.exports = sql;

@@ -171,4 +171,22 @@ function getList(year) {
         })
     })
 }
+
+//得到分类
+router.get('/getCatalogs', (req, res) => {
+    let sql = $sql.articles.queryCatalogs
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            if (result.length > 0) {
+                resData.data = result;
+            } else {
+                resData.message = "暂时没有分类"
+            }
+            res.json(resData)
+        }
+    })
+})
 module.exports = router;
