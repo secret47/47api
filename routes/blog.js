@@ -77,11 +77,14 @@ router.get('/getPre', (req, res) => {
 router.get('/getNext', (req, res) => {
     let sql = $sql.blog.queryNext;
     let aid = req.query.aid
+    console.log(resData,'===')
     conn.query(sql, [aid], (err, result) => {
         if (err) {
             console.log(err)
         }
         if (result) {
+            console.log(resData,'+++')
+
             if (result.length > 0) {
                 resData.data = result[0];
             } else {

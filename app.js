@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles')
@@ -44,27 +45,17 @@ const uploads = multer({
 var s3 = new sinaCloud.S3();
 let resData;
 app.use((req, res, next) => {
-    if (req.url.startsWith('/static/css') || req.url.startsWith('/static/js')) {
-        fs.readFile('.' + req.url, (err, data) => {
-            res.end(data);
-            return;
-        })
-    }
-    fs.readFile('index.html', 'utf-8', (err, content) => {
-        if (err) {
-            console.log('We cannot open "index.htm" file.')
-        }
-        res.writeHead(200, {
-            'Content-Type': 'text/html; charset=utf-8'
-        })
-        res.end(content)
-    })
     resData = {
         code: 'ok',
         message: ''
     }
     next()
 })
+
+var history = require('connect-history-api-fallback');
+app.use(history())
+
+
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
     var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;
@@ -95,4 +86,5 @@ app.post('/upload/imgs', uploads.single('file'), (req, res) => {
         }
     });
 })
+
 module.exports = app;
