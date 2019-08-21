@@ -64,7 +64,7 @@ router.get('/getPre', (req, res) => {
         }
         if (result) {
             if (result.length > 0) {
-                resData.data = result[0];
+                resData.data = result
             } else {
                 resData.code = 'failed'
                 resData.message = '没有更多数据了'
@@ -77,16 +77,15 @@ router.get('/getPre', (req, res) => {
 router.get('/getNext', (req, res) => {
     let sql = $sql.blog.queryNext;
     let aid = req.query.aid
-    console.log(resData,'===')
+    console.log(resData,'===下一篇')
     conn.query(sql, [aid], (err, result) => {
         if (err) {
             console.log(err)
         }
         if (result) {
-            console.log(resData,'+++')
-
+            console.log(resData,'+++下一篇')
             if (result.length > 0) {
-                resData.data = result[0];
+                resData.data = result
             } else {
                 resData.code = 'failed'
                 resData.message = '没有更多数据了'

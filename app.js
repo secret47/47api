@@ -18,6 +18,23 @@ app.use(bodyParser.json());
 const multer = require('multer')
 //新浪sdk引用
 const sinaCloud = require('scs-sdk')
+console.log('-----')
+
+var history = require('connect-history-api-fallback');
+app.use(history({
+    rewrites: [{
+        from: /^\/.*$/,
+        to: function(context) {
+            return "/";
+        }
+    }]
+}))
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(process.cwd(), "/index.html"));
+});
+
+console.log('-----')
 //解决跨域请求
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -26,7 +43,6 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles')
@@ -51,11 +67,6 @@ app.use((req, res, next) => {
     }
     next()
 })
-
-var history = require('connect-history-api-fallback');
-app.use(history())
-
-
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
     var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;
@@ -86,5 +97,4 @@ app.post('/upload/imgs', uploads.single('file'), (req, res) => {
         }
     });
 })
-
 module.exports = app;
