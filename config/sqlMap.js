@@ -52,7 +52,8 @@ let sql = {
     },
     system:{
         setSysInfo:"insert into webInfo(title,topImg) values(?,?)",
-        getSysInfo:"select * from webInfo"
+        getSysInfo:"select * from webInfo",
+        getNewRemark:"select comment.nickname,comment.createDate,comment.container,article.title FROM comment,article where comment.aid = article.aid ORDER BY comment.createDate DESC LIMIT 0,5"
     }
 }
 module.exports = sql;

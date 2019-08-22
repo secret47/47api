@@ -46,4 +46,22 @@ router.get('/getInfo', (req, res) => {
     })
 })
 
+router.get('/newRemark',(req,res)=>{
+     let sql = $sql.system.getNewRemark
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            if (result.length > 0) {
+                resData.data = result
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
+})
+
 module.exports = router;
