@@ -1,6 +1,5 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
@@ -8,6 +7,7 @@ var app = express();
 const bodyParser = require('body-parser');
 const fs = require("fs"); //文件模块，用于改文件名字
 const pathLib = require("path"); //对路径进行解析
+const Token = require('./config/token.js')
 //bodyparser设置  unencoded格式
 app.use(bodyParser.urlencoded({
     extended: true
@@ -18,8 +18,6 @@ app.use(bodyParser.json());
 const multer = require('multer')
 //新浪sdk引用
 const sinaCloud = require('scs-sdk')
-console.log('-----')
-
 var history = require('connect-history-api-fallback');
 app.use(history({
     rewrites: [{
@@ -30,18 +28,37 @@ app.use(history({
     }]
 }))
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(process.cwd(), "/index.html"));
-});
-
-console.log('-----')
+function IsInArray(arr, val) {　　
+    var testStr = ',' + arr.join(",") + ",";　　
+    return testStr.indexOf("," + val + ",") != -1;
+}
 //解决跨域请求
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+    res.header('Access-Control-Allow-Headers', 'token');
+    let blogUrls = ['/blog/getList', '/blog/getArticles', '/blog/getPre', '/blog/getNext', '/blog/queryRemark', '/blog/referRemark', '/blog/getAllList']
+    if (req.url != '/user/login' && req.url != '/user/reg') {
+        // console.log((blogUrls.includes(req.originalUrl)),blogUrls, req.originalUrl,'网站在当前吗？')
+        // if (IsInArray(blogUrls, req.originalUrl)) {
+        //     console.log('..内容')
+        // } else {
+            let token = req.headers.token;
+            const result = Token.decrypt(token);
+            if (result.token) {
+                console.log(result)
+                next();
+            } else {
+                res.send({
+                    code: 'failed',
+                    message: "登录失效，请重新登录"
+                })
+            }
+        // }
+        // next();
+    }
 });
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -97,6 +114,4 @@ app.post('/upload/imgs', uploads.single('file'), (req, res) => {
         }
     });
 })
-
-
 module.exports = app;

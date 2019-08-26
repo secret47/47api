@@ -14,20 +14,7 @@ router.use((req, res, next) => {
     }
     next()
 })
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    let sql = $sql.user.query
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-        }
-        if (result) {
-            console.log(result);
-            resData.data = result;
-            res.json(resData)
-        }
-    })
-});
+
 //用户注册
 router.post('/reg', (req, res) => {
     let sql = $sql.user.regUser;
