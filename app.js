@@ -18,20 +18,8 @@ app.use(bodyParser.json());
 const multer = require('multer')
 //新浪sdk引用
 const sinaCloud = require('scs-sdk')
-var history = require('connect-history-api-fallback');
-app.use(history({
-    rewrites: [{
-        from: /^\/.*$/,
-        to: function(context) {
-            return "/";
-        }
-    }]
-}))
 
-function IsInArray(arr, val) {　　
-    var testStr = ',' + arr.join(",") + ",";　　
-    return testStr.indexOf("," + val + ",") != -1;
-}
+
 //解决跨域请求
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -39,25 +27,20 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Headers', 'token');
-    let blogUrls = ['/blog/getList', '/blog/getArticles', '/blog/getPre', '/blog/getNext', '/blog/queryRemark', '/blog/referRemark', '/blog/getAllList']
-    if (req.url != '/user/login' && req.url != '/user/reg') {
-        // console.log((blogUrls.includes(req.originalUrl)),blogUrls, req.originalUrl,'网站在当前吗？')
-        // if (IsInArray(blogUrls, req.originalUrl)) {
-        //     console.log('..内容')
-        // } else {
-            let token = req.headers.token;
-            const result = Token.decrypt(token);
-            if (result.token) {
-                console.log(result)
-                next();
-            } else {
-                res.send({
-                    code: 'failed',
-                    message: "登录失效，请重新登录"
-                })
-            }
-        // }
-        // next();
+    if (req.url != '/user/login' && req.url != '/user/reg' && req.url.indexOf('/articles/') > -1) {
+        let token = req.headers.token;
+        const result = Token.decrypt(token);
+        if (result.token) {
+            console.log(result)
+            next();
+        } else {
+            res.send({
+                code: 'failed',
+                message: "登录失效，请重新登录"
+            })
+        }
+    }else{
+        next();
     }
 });
 var indexRouter = require('./routes/index');
@@ -76,6 +59,7 @@ const uploads = multer({
     dest: './uploads'
 }); //定义图片上传的临时目录
 var s3 = new sinaCloud.S3();
+
 let resData;
 app.use((req, res, next) => {
     resData = {
@@ -84,6 +68,7 @@ app.use((req, res, next) => {
     }
     next()
 })
+
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
     var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;

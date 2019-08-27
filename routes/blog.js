@@ -16,7 +16,7 @@ router.use((req, res, next) => {
 })
 //查询文章列表
 router.get('/getList', (req, res) => {
-
+    console.log("文章端，列表")
     let currentPage = req.query.currentPage || 1;
     let pageSize = req.query.pageSize || 10
     let sql = 'SELECT * FROM article,catalog where article.cid = catalog.id limit 10 '
