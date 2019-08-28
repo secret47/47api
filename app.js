@@ -43,16 +43,16 @@ app.use(function(req, res, next) {
         next();
     }
 });
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var articlesRouter = require('./routes/articles')
-var blogRouter = require('./routes/blog')
-var sysRouter = require('./routes/system.js')
-app.use('/', indexRouter);
-app.use('/user', usersRouter);
-app.use('/articles', articlesRouter)
-app.use('/blog', blogRouter)
-app.use('/systems', sysRouter)
+// var indexRouter = require('./routes/index');
+// var usersRouter = require('./routes/users');
+// var articlesRouter = require('./routes/articles')
+// var blogRouter = require('./routes/blog')
+// var sysRouter = require('./routes/system.js')
+// app.use('/', indexRouter);
+// app.use('/user', usersRouter);
+// app.use('/articles', articlesRouter)
+// app.use('/blog', blogRouter)
+// app.use('/systems', sysRouter)
 //新浪云储存使用
 sinaCloud.config.loadFromPath('./config/scs.json')
 const uploads = multer({
