@@ -18,18 +18,18 @@ router.get('/getList', (req, res) => {
     let currentPage = req.query.currentPage || 1;
     let pageSize = req.query.pageSize || 10
     let sql = 'SELECT aid,title,description,tags,cname,createDate FROM article,catalog where article.cid = catalog.id limit 10 '
-    // let sql1 = 'SELECT found_rows() AS rowcount;'
-    // db.query(sql, [currentPage, pageSize], (result, fields) => {
-    //     if (result) {
-    //         if (result.length > 0) {
-    //             resData.data = result
-    //         } else {
-    //             resData.code = 'failed'
-    //             resData.message = '没有更多数据了'
-    //         }
-    //         res.json(resData)
-    //     }
-    // })
+    let sql1 = 'SELECT found_rows() AS rowcount;'
+    db.query(sql, [currentPage, pageSize], (result, fields) => {
+        if (result) {
+            if (result.length > 0) {
+                resData.data = result
+            } else {
+                resData.code = 'failed'
+                resData.message = '没有更多数据了'
+            }
+            res.json(resData)
+        }
+    })
 })
 //根据id得到文章
 router.get('/getArticles', (req, res) => {
