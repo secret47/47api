@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql') //引用mysql
 const db = require('../config/db.js')
 const $sql = require('../config/sqlMap.js')
-let conn = mysql.createConnection(db.mysql)
 let Token = require('../config/token.js')
 // 定义一个返回变量的格式
 let resData;
@@ -19,10 +17,7 @@ router.use((req, res, next) => {
 router.post('/reg', (req, res) => {
     let sql = $sql.user.regUser;
     let params = req.body;
-    conn.query(sql, [params.username, params.password], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.username, params.password], (result, fields)  => {
         if (result) {
             resData.message = "注册成功！",
                 res.json(resData)
@@ -33,10 +28,7 @@ router.post('/reg', (req, res) => {
 router.post('/login', (req, res) => {
     let sql = $sql.user.login;
     let params = req.body;
-    conn.query(sql, [params.username, params.password], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.username, params.password], (result, fields)  => {
         if (result) {
             //这就是看数据库中有没有数据和当前输入的一模一样
             //有的话，长度就不会为0
@@ -64,10 +56,7 @@ router.post('/login', (req, res) => {
 router.get('/getInfo', (req, res) => {
     let sql = $sql.user.queryInfo;
     let params = req.query;
-    conn.query(sql, [params.uid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.uid], (result, fields)  => {
         if (result) {
             console.log(result);
             resData.message = "查询成功"
@@ -81,10 +70,7 @@ router.get('/getInfo', (req, res) => {
 router.get('/getRoles', (req, res) => {
     let sql = $sql.user.queryRoles
     let params = req.query
-    conn.query(sql, [params.uid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.uid], (result, fields)  => {
         if (result) {
             console.log(result);
             resData.message = "查询成功"
@@ -97,10 +83,7 @@ router.get('/getRoles', (req, res) => {
 router.post('/updateInfo', (req, res) => {
     let sql = $sql.user.updateInfo;
     let params = req.body;
-    conn.query(sql, [params.avatarUrl, params.nickname, params.gender, params.age, params.description, params.birthday, params.uid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.avatarUrl, params.nickname, params.gender, params.age, params.description, params.birthday, params.uid], (result, fields)  => {
         if (result) {
             console.log(result);
             resData.message = "更改成功"

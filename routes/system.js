@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql') //引用mysql
 const db = require('../config/db.js')
 const $sql = require('../config/sqlMap.js')
-let conn = mysql.createConnection(db.mysql)
 let Token = require('../config/token.js')
 // 定义一个返回变量的格式
 let resData;
@@ -18,10 +16,7 @@ router.use((req, res, next) => {
 router.post('/setInfo', (req, res) => {
     let sql = $sql.system.setSysInfo
     let params = req.body
-    conn.query(sql, [params.title, params.topImg], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [params.title, params.topImg], (result, fields)  => {
         if (result) {
             resData.message = '保存成功！'
             res.json(resData)
@@ -30,10 +25,7 @@ router.post('/setInfo', (req, res) => {
 })
 router.get('/getInfo', (req, res) => {
     let sql = $sql.system.getSysInfo
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, (result, fields)  => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result[0];
@@ -48,10 +40,7 @@ router.get('/getInfo', (req, res) => {
 
 router.get('/newRemark',(req,res)=>{
      let sql = $sql.system.getNewRemark
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, (result, fields)  => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result

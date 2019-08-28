@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-// const mysql = require('mysql') //引用mysql
-// const db = require('../config/db.js')
-// const $sql = require('../config/sqlMap.js')
-// let conn = mysql.createConnection(db.mysql)
-// let Token = require('../config/token.js')
+const db = require('../config/db')
+const $sql = require('../config/sqlMap.js')
+let Token = require('../config/token.js')
 // 定义一个返回变量的格式
 let resData;
 router.use((req, res, next) => {
@@ -19,15 +17,12 @@ router.get('/getList', (req, res) => {
     console.log("文章端，列表")
     let currentPage = req.query.currentPage || 1;
     let pageSize = req.query.pageSize || 10
-    let sql = 'SELECT * FROM article,catalog where article.cid = catalog.id limit 10 '
+    let sql = 'SELECT aid,title,description,tags,cname,createDate FROM article,catalog where article.cid = catalog.id limit 10 '
     // let sql1 = 'SELECT found_rows() AS rowcount;'
-    conn.query(sql, [currentPage, pageSize], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [currentPage, pageSize], (result, fields) => {
         if (result) {
             if (result.length > 0) {
-                resData.data = result;
+                resData.data = result
             } else {
                 resData.code = 'failed'
                 resData.message = '没有更多数据了'
@@ -40,10 +35,7 @@ router.get('/getList', (req, res) => {
 router.get('/getArticles', (req, res) => {
     let sql = $sql.articles.queryForId
     let aid = req.query.aid
-    conn.query(sql, [aid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [aid], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result[0];
@@ -59,10 +51,7 @@ router.get('/getArticles', (req, res) => {
 router.get('/getPre', (req, res) => {
     let sql = $sql.blog.queryPre;
     let aid = req.query.aid
-    conn.query(sql, [aid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [aid], (result, fields)  => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result
@@ -78,11 +67,7 @@ router.get('/getPre', (req, res) => {
 router.get('/getNext', (req, res) => {
     let sql = $sql.blog.queryNext;
     let aid = req.query.aid
-    console.log(resData,'===下一篇')
-    conn.query(sql, [aid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [aid], (result, fields)  => {
         if (result) {
             console.log(resData,'+++下一篇')
             if (result.length > 0) {
@@ -99,10 +84,7 @@ router.get('/getNext', (req, res) => {
 router.get('/queryRemark', (req, res) => {
     let sql = $sql.blog.queryRemark;
     let aid = req.query.aid
-    conn.query(sql, [aid], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, [aid], (result, fields)  => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result
@@ -118,7 +100,7 @@ router.get('/queryRemark', (req, res) => {
 router.post('/referRemark', (req, res) => {
     let sql = $sql.blog.referRemark
     let params = req.body
-    conn.query(sql, [params.nickname, params.contact, params.container, params.aid], (err, result) => {
+    db.query(sql, [params.nickname, params.contact, params.container, params.aid], (result, fields)  => {
         if (err) {
             console.log(err)
         }
@@ -150,7 +132,7 @@ router.get('/getAllList', (req, res) => {
 function getYear() {
     let sql = $sql.blog.queryYear;
     return new Promise((resolve, reject) => {
-        conn.query(sql, (err, result) => {
+        conn.query(sql, (result, fields)  => {
             if (err) {
                 reject(err)
             }
@@ -164,7 +146,7 @@ function getYear() {
 function getList(year) {
     let sqlForYear = $sql.blog.queryForYear;
     return new Promise((resolve, reject) => {
-        conn.query(sqlForYear, [year], (err, result) => {
+        conn.query(sqlForYear, [year], (result, fields)  => {
             if (err) {
                 reject(err)
             }
@@ -178,10 +160,7 @@ function getList(year) {
 //得到分类
 router.get('/getCatalogs', (req, res) => {
     let sql = $sql.articles.queryCatalogs
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-        }
+    db.query(sql, (result, fields)  => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result;
