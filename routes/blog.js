@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql') //引用mysql
-const db = require('../config/db.js')
-const $sql = require('../config/sqlMap.js')
-let conn = mysql.createConnection(db.mysql)
-let Token = require('../config/token.js')
+// const mysql = require('mysql') //引用mysql
+// const db = require('../config/db.js')
+// const $sql = require('../config/sqlMap.js')
+// let conn = mysql.createConnection(db.mysql)
+// let Token = require('../config/token.js')
 // 定义一个返回变量的格式
 let resData;
 router.use((req, res, next) => {
