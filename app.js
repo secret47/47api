@@ -18,15 +18,13 @@ app.use(bodyParser.json());
 const multer = require('multer')
 //新浪sdk引用
 const sinaCloud = require('scs-sdk')
-
-
 //解决跨域请求
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    // res.header('Access-Control-Allow-Headers', 'Content-Type');
-    // res.header('Access-Control-Allow-Headers', 'token');
+    res.header("X-Powered-By", ' 3.2.1');
+    res.header("Content-Type", "application/json;charset=utf-8");
     if (req.url != '/user/login' && req.url != '/user/reg' && req.url.indexOf('/articles/') > -1) {
         let token = req.headers.token;
         const result = Token.decrypt(token);
@@ -39,7 +37,7 @@ app.use(function(req, res, next) {
                 message: "登录失效，请重新登录"
             })
         }
-    }else{
+    } else {
         next();
     }
 });
@@ -59,7 +57,6 @@ const uploads = multer({
     dest: './uploads'
 }); //定义图片上传的临时目录
 var s3 = new sinaCloud.S3();
-
 let resData;
 app.use((req, res, next) => {
     resData = {
@@ -68,7 +65,6 @@ app.use((req, res, next) => {
     }
     next()
 })
-
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
     var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;
