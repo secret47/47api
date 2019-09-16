@@ -7,7 +7,7 @@ let Token = require('../config/token.js')
 let resData;
 router.use((req, res, next) => {
     resData = {
-        code: 'ok',
+        code: '200',
         message: ''
     }
     next()
@@ -30,10 +30,11 @@ router.post('/login', (req, res) => {
     let params = req.body;
     db.query(sql, [params.username, params.password], (result, fields)  => {
         if (result) {
+            console.log(result)
             //这就是看数据库中有没有数据和当前输入的一模一样
             //有的话，长度就不会为0
             if (result.length == 0) {
-                resData.code = 'failed';
+                resData.code = '300';
                 resData.message = '登录失败';
                 res.json(resData)
             } else {
@@ -70,6 +71,7 @@ router.get('/getInfo', (req, res) => {
 router.get('/getRoles', (req, res) => {
     let sql = $sql.user.queryRoles
     let params = req.query
+    console.log('uid',params)
     db.query(sql, [params.uid], (result, fields)  => {
         if (result) {
             console.log(result);

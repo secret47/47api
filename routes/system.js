@@ -7,7 +7,7 @@ let Token = require('../config/token.js')
 let resData;
 router.use((req, res, next) => {
     resData = {
-        code: 'ok',
+        code: '200',
         message: ''
     }
     next()
@@ -30,7 +30,7 @@ router.get('/getInfo', (req, res) => {
             if (result.length > 0) {
                 resData.data = result[0];
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -45,12 +45,14 @@ router.get('/newRemark',(req,res)=>{
             if (result.length > 0) {
                 resData.data = result
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
         }
     })
 })
+
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ let Token = require('../config/token.js')
 let resData;
 router.use((req, res, next) => {
     resData = {
-        code: 'ok',
+        code:'200',
         message: ''
     }
     next()
@@ -24,7 +24,7 @@ router.get('/getList', (req, res) => {
             if (result.length > 0) {
                 resData.data = result
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -40,7 +40,7 @@ router.get('/getArticles', (req, res) => {
             if (result.length > 0) {
                 resData.data = result[0];
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -56,7 +56,7 @@ router.get('/getPre', (req, res) => {
             if (result.length > 0) {
                 resData.data = result
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -73,7 +73,7 @@ router.get('/getNext', (req, res) => {
             if (result.length > 0) {
                 resData.data = result
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -89,7 +89,7 @@ router.get('/queryRemark', (req, res) => {
             if (result.length > 0) {
                 resData.data = result
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -165,6 +165,7 @@ router.get('/getCatalogs', (req, res) => {
             if (result.length > 0) {
                 resData.data = result;
             } else {
+                resData.code = '300'
                 resData.message = "暂时没有分类"
             }
             res.json(resData)

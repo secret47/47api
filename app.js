@@ -29,11 +29,10 @@ app.use(function(req, res, next) {
         let token = req.headers.token;
         const result = Token.decrypt(token);
         if (result.token) {
-            console.log(result)
             next();
         } else {
             res.send({
-                code: 'failed',
+                code: '888',
                 message: "登录失效，请重新登录"
             })
         }
@@ -65,6 +64,21 @@ app.use((req, res, next) => {
     }
     next()
 })
+//列出所有的图片
+app.get('/imgs/getList', (req, res) => {
+    var params = {
+        Bucket: 'yang47', //required
+        Delimiter: '/', //用'/'折叠
+        Marker: '', //分页标签
+        MaxKeys: 10, //最大成员数
+    };
+    s3.listObjects(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data); // successful response
+    });
+})
+
+//上传图片
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
     var pathNew = req.file.path + pathLib.parse(req.file.originalname).ext;

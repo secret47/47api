@@ -14,7 +14,7 @@ var mysql = require('mysql')
 var pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root', //用户名
-    password: 'Yang47!_', //密码
+    password: '1234', //密码
     database: '47blog', //数据库名称
     port: '3306', //端口
     multipleStatements: true, //多条查询

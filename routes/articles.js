@@ -7,7 +7,7 @@ let Token = require('../config/token.js')
 let resData;
 router.use((req, res, next) => {
     resData = {
-        code: 'ok',
+        code:'200',
         message: ''
     }
     next()
@@ -37,7 +37,7 @@ router.get('/getList', (req, res) => {
             if (result.length > 0) {
                 resData.data = result;
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -66,7 +66,7 @@ router.post('/del', (req, res) => {
     db.query(sql, [param.aid], (result, fields)  => {
             if(result){
             if (result.length == 0) {
-                resData.code = 'failed';
+                resData.code = '300';
                 resData.message = "没有找到你的文章哦~";
                 res.json(resData)
             } else {
@@ -98,7 +98,7 @@ router.get('/getArticles', (req, res) => {
             if (result.length > 0) {
                 resData.data = result[0];
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -148,7 +148,7 @@ router.get('/getTags', (req, res) => {
             if (result.length > 0) {
                 resData.data = result;
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
@@ -165,7 +165,7 @@ router.get('/searchForTitle', (req, res) => {
             if (result.length > 0) {
                 resData.data = result;
             } else {
-                resData.code = 'failed'
+                resData.code = '300'
                 resData.message = '没有更多数据了'
             }
             res.json(resData)
