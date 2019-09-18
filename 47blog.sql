@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-08-15 20:16:46
+Date: 2019-09-18 15:42:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `article` (
   `description` varchar(255) DEFAULT NULL,
   `createDate` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`aid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for art_tags
@@ -69,6 +69,21 @@ CREATE TABLE `comment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for demo
+-- ----------------------------
+DROP TABLE IF EXISTS `demo`;
+CREATE TABLE `demo` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `imgUrl` varchar(255) DEFAULT NULL,
+  `description` longtext,
+  `url` varchar(255) DEFAULT NULL,
+  `starTime` datetime DEFAULT NULL,
+  `endTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for routers
 -- ----------------------------
 DROP TABLE IF EXISTS `routers`;
@@ -93,7 +108,7 @@ CREATE TABLE `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user
@@ -118,6 +133,7 @@ CREATE TABLE `userinfo` (
   `age` int(11) DEFAULT NULL COMMENT '年龄',
   `description` varchar(255) DEFAULT NULL COMMENT '个人介绍',
   `birthday` date DEFAULT NULL,
+  `roles` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`uid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -131,3 +147,12 @@ CREATE TABLE `userroles` (
   `rolesname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Table structure for webinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `webinfo`;
+CREATE TABLE `webinfo` (
+  `title` varchar(255) DEFAULT NULL,
+  `topImg` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
