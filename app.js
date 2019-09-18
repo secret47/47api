@@ -45,11 +45,11 @@ var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles')
 var blogRouter = require('./routes/blog')
 var sysRouter = require('./routes/system.js')
-app.use('/', indexRouter);
-app.use('/user', usersRouter);
-app.use('/articles', articlesRouter)
-app.use('/blog', blogRouter)
-app.use('/systems', sysRouter)
+app.use('/api', indexRouter);
+app.use('/api/user', usersRouter);
+app.use('/api/articles', articlesRouter)
+app.use('/api/blog', blogRouter)
+app.use('/api/systems', sysRouter)
 //新浪云储存使用
 sinaCloud.config.loadFromPath('./config/scs.json')
 const uploads = multer({
@@ -77,7 +77,6 @@ app.get('/imgs/getList', (req, res) => {
         else console.log(data); // successful response
     });
 })
-
 //上传图片
 app.post('/upload/imgs', uploads.single('file'), (req, res) => {
     console.log(req.file)
