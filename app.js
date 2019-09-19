@@ -51,6 +51,7 @@ app.use('/api/articles', articlesRouter)
 app.use('/api/blog', blogRouter)
 app.use('/api/systems', sysRouter)
 let history = require('connect-history-api-fallback');
+
 app.use(history({
 	rewrites: [
     {//访问路径含dist则继续访问
@@ -63,6 +64,7 @@ app.use(history({
       from: /^\/.*[js|css]$/,
       to: function(context) {
         return '/dist/'+context.parsedUrl.pathname;
+        console.log(context.parsedUrl.pathname)
       }
     },
     {//访问路径不含dist则默认访问/dist/index.html
