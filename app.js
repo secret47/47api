@@ -50,6 +50,32 @@ app.use('/api/user', usersRouter);
 app.use('/api/articles', articlesRouter)
 app.use('/api/blog', blogRouter)
 app.use('/api/systems', sysRouter)
+let history = require('connect-history-api-fallback');
+app.use(history({
+	rewrites: [
+    {//访问路径含dist则继续访问
+      from: /^\/dist\/.*$/,
+      to: function(context) {
+        return context.parsedUrl.pathname;
+      }
+    },
+    {//后缀为js|css 访问dist下相应文件
+      from: /^\/.*[js|css]$/,
+      to: function(context) {
+        return '/dist/'+context.parsedUrl.pathname;
+      }
+    },
+    {//访问路径不含dist则默认访问/dist/index.html
+      from: /^\/.*$/,
+      to: function(context) {
+        return '/dist/';
+      }
+    },
+  ]
+
+}))
+app.use(express.static(path.join(__dirname, 'public')));
+
 //新浪云储存使用
 sinaCloud.config.loadFromPath('./config/scs.json')
 const uploads = multer({
