@@ -16,7 +16,7 @@ router.use((req, res, next) => {
 router.post('/setInfo', (req, res) => {
     let sql = $sql.system.setSysInfo
     let params = req.body
-    db.query(sql, [params.title, params.topImg], (result, fields)  => {
+    db.query(sql, [params.title, params.topImg], (result, fields) => {
         if (result) {
             resData.message = '保存成功！'
             res.json(resData)
@@ -25,7 +25,7 @@ router.post('/setInfo', (req, res) => {
 })
 router.get('/getInfo', (req, res) => {
     let sql = $sql.system.getSysInfo
-    db.query(sql, (result, fields)  => {
+    db.query(sql, [], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result[0];
@@ -37,10 +37,9 @@ router.get('/getInfo', (req, res) => {
         }
     })
 })
-
-router.get('/newRemark',(req,res)=>{
-     let sql = $sql.system.getNewRemark
-    db.query(sql, (result, fields)  => {
+router.get('/newRemark', (req, res) => {
+    let sql = $sql.system.getNewRemark
+    db.query(sql, [], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result
@@ -52,7 +51,4 @@ router.get('/newRemark',(req,res)=>{
         }
     })
 })
-
-
-
 module.exports = router;
