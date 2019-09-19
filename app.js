@@ -74,7 +74,7 @@ app.use(history({
   ]
 
 }))
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(pathLib.join(__dirname, 'public')));
 
 //新浪云储存使用
 sinaCloud.config.loadFromPath('./config/scs.json')

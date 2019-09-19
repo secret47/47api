@@ -12,12 +12,11 @@ router.use((req, res, next) => {
     }
     next()
 })
-
 //用户注册
 router.post('/reg', (req, res) => {
     let sql = $sql.user.regUser;
     let params = req.body;
-    db.query(sql, [params.username, params.password], (result, fields)  => {
+    db.query(sql, [params.username, params.password], (result, fields) => {
         if (result) {
             resData.message = "注册成功！",
                 res.json(resData)
@@ -28,14 +27,14 @@ router.post('/reg', (req, res) => {
 router.post('/login', (req, res) => {
     let sql = $sql.user.login;
     let params = req.body;
-    db.query(sql, [params.username, params.password], (result, fields)  => {
+    db.query(sql, [params.username, params.password], (result, fields) => {
         if (result) {
             console.log(result)
             //这就是看数据库中有没有数据和当前输入的一模一样
             //有的话，长度就不会为0
             if (result.length == 0) {
                 resData.code = '300';
-                resData.message = '登录失败';
+                resData.message = '登录失败,用户名或密码错误。';
                 res.json(resData)
             } else {
                 resData.message = '登录成功';
@@ -57,9 +56,8 @@ router.post('/login', (req, res) => {
 router.get('/getInfo', (req, res) => {
     let sql = $sql.user.queryInfo;
     let params = req.query;
-    db.query(sql, [params.uid], (result, fields)  => {
+    db.query(sql, [params.uid], (result, fields) => {
         if (result) {
-            console.log(result);
             resData.message = "查询成功"
             let userInfo = result[0];
             resData.data = userInfo
@@ -71,8 +69,8 @@ router.get('/getInfo', (req, res) => {
 router.get('/getRoles', (req, res) => {
     let sql = $sql.user.queryRoles
     let params = req.query
-    console.log('uid',params)
-    db.query(sql, [params.uid], (result, fields)  => {
+    console.log('uid', params)
+    db.query(sql, [params.uid], (result, fields) => {
         if (result) {
             console.log(result);
             resData.message = "查询成功"
@@ -85,7 +83,7 @@ router.get('/getRoles', (req, res) => {
 router.post('/updateInfo', (req, res) => {
     let sql = $sql.user.updateInfo;
     let params = req.body;
-    db.query(sql, [params.avatarUrl, params.nickname, params.gender, params.age, params.description, params.birthday, params.uid], (result, fields)  => {
+    db.query(sql, [params.avatarUrl, params.nickname, params.gender, params.age, params.description, params.birthday, params.uid], (result, fields) => {
         if (result) {
             console.log(result);
             resData.message = "更改成功"

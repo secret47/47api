@@ -7,7 +7,7 @@ let Token = require('../config/token.js')
 let resData;
 router.use((req, res, next) => {
     resData = {
-        code:'200',
+        code: '200',
         message: ''
     }
     next()
@@ -15,7 +15,7 @@ router.use((req, res, next) => {
 //得到分类
 router.get('/getCatalogs', (req, res) => {
     let sql = $sql.articles.queryCatalogs
-    db.query(sql, (result, fields)  => {
+    db.query(sql, [], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result;
@@ -32,7 +32,7 @@ router.get('/getList', (req, res) => {
     let pageSize = req.query.pageSize || 10
     let sql = 'SELECT * FROM article,catalog where article.cid = catalog.id limit ' + pageSize + ' offset ' + pageSize * (currentPage - 1);
     // let sql1 = 'SELECT found_rows() AS rowcount;'
-    db.query(sql, [currentPage, pageSize], (result, fields)  => {
+    db.query(sql, [currentPage, pageSize], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result;
@@ -48,7 +48,7 @@ router.get('/getList', (req, res) => {
 router.post('/create', (req, res) => {
     let sql = $sql.articles.createArticles;
     let params = req.body;
-    db.query(sql, [params.title, params.author, params.cid, params.desc, params.coverImg, params.tags, params.content, params.createDate], (result, fields)  => {
+    db.query(sql, [params.title, params.author, params.cid, params.desc, params.coverImg, params.tags, params.content, params.createDate], (result, fields) => {
         if (result) {
             let aid = result.insertId;
             resData.data = {
@@ -63,8 +63,8 @@ router.post('/create', (req, res) => {
 router.post('/del', (req, res) => {
     let sql = $sql.articles.delete;
     let param = req.body
-    db.query(sql, [param.aid], (result, fields)  => {
-            if(result){
+    db.query(sql, [param.aid], (result, fields) => {
+        if (result) {
             if (result.length == 0) {
                 resData.code = '300';
                 resData.message = "没有找到你的文章哦~";
@@ -80,7 +80,7 @@ router.post('/del', (req, res) => {
 router.post('/update', (req, res) => {
     let sql = $sql.articles.update;
     let params = req.body;
-    db.query(sql, [params.title, params.cid, params.content, params.aid], (result, fields)  => {
+    db.query(sql, [params.title, params.cid, params.content, params.aid], (result, fields) => {
         if (result) {
             console.log(result);
             resData.message = "更改成功"
@@ -92,9 +92,9 @@ router.post('/update', (req, res) => {
 router.get('/getArticles', (req, res) => {
     let sql = $sql.articles.queryForId
     let aid = req.query.aid
-    db.query(sql, [aid], (result, fields)  => {
+    db.query(sql, [aid], (result, fields) => {
         if (result) {
-            console.log(result,'得到文章')
+            console.log(result, '得到文章')
             if (result.length > 0) {
                 resData.data = result[0];
             } else {
@@ -110,7 +110,7 @@ router.post('/addCatalog', (req, res) => {
     let sql = $sql.articles.addCatalog
     let cname = req.body.cname
     let cdesc = req.body.cdesc
-    db.query(sql, [cname, cdesc], (result, fields)  => {
+    db.query(sql, [cname, cdesc], (result, fields) => {
         if (result) {
             resData.message = '添加成功！'
             res.json(resData)
@@ -121,7 +121,7 @@ router.post('/addCatalog', (req, res) => {
 router.get('/delCatalog', (req, res) => {
     let sql = $sql.articles.delCatalog
     let id = req.query.id
-    db.query(sql, [id], (result, fields)  => {
+    db.query(sql, [id], (result, fields) => {
         if (result) {
             resData.message = '删除成功！'
             res.json(resData)
@@ -132,7 +132,7 @@ router.get('/delCatalog', (req, res) => {
 router.post('/newTags', (req, res) => {
     let sql = $sql.articles.addTags;
     let name = req.body.name;
-    db.query(sql, [name], (result, fields)  => {
+    db.query(sql, [name], (result, fields) => {
         if (result) {
             console.log(result)
             resData.message = '创建标签成功'
@@ -143,7 +143,7 @@ router.post('/newTags', (req, res) => {
 //得到所有的标签
 router.get('/getTags', (req, res) => {
     let sql = $sql.articles.queryTags;
-    db.query(sql, [], (result, fields)  => {
+    db.query(sql, [], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result;
@@ -160,7 +160,7 @@ router.get('/searchForTitle', (req, res) => {
     let sql = $sql.articles.searchForTitle
     let title = req.query.title
     title = '%' + title + '%'
-    db.query(sql, [title], (result, fields)  => {
+    db.query(sql, [title], (result, fields) => {
         if (result) {
             if (result.length > 0) {
                 resData.data = result;
@@ -172,5 +172,4 @@ router.get('/searchForTitle', (req, res) => {
         }
     })
 })
-
 module.exports = router;
