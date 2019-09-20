@@ -48,7 +48,7 @@ router.get('/getList', (req, res) => {
 router.post('/create', (req, res) => {
     let sql = $sql.articles.createArticles;
     let params = req.body;
-    db.query(sql, [params.title, params.author, params.cid, params.desc, params.coverImg, params.tags, params.content, params.createDate], (result, fields) => {
+    db.query(sql, [params.title, params.uid, params.cid, params.desc, params.coverImg, params.tags, params.content, params.createDate], (result, fields) => {
         if (result) {
             let aid = result.insertId;
             resData.data = {
