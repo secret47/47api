@@ -25,20 +25,22 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
-    if (req.url != '/user/login' && req.url != '/user/reg' && req.url.indexOf('/articles/') > -1) {
-        let token = req.headers.token;
-        const result = Token.decrypt(token);
-        if (result.token) {
-            next();
-        } else {
-            res.send({
-                code: '888',
-                message: "登录失效，请重新登录"
-            })
-        }
-    } else {
-        next();
-    }
+    // if (req.url != '/user/login' && req.url != '/user/reg' && req.url.indexOf('/articles/') > -1) {
+    //     let token = req.headers.token;
+    //     const result = Token.decrypt(token);
+    //     if (result.token) {
+    //         next();
+    //     } else {
+    //         res.send({
+    //             code: '888',
+    //             message: "登录失效，请重新登录"
+    //         })
+    //     }
+    // } else {
+    //     next();
+    // }
+    // 
+    next()
 });
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
