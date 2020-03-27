@@ -25,7 +25,9 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
-    // if (req.url != '/user/login' && req.url != '/user/reg' && req.url.indexOf('/articles/') > -1) {
+    console.log(req.url)
+    // if (req.url != '/user/login' ||req.url != '/user/reg' || req.url.search('/articles/') != -1 || req.url.search('/blog/') != -1) {
+    //     console.log("true 斤这里")
     //     let token = req.headers.token;
     //     const result = Token.decrypt(token);
     //     if (result.token) {
@@ -37,21 +39,40 @@ app.use(function(req, res, next) {
     //         })
     //     }
     // } else {
+    //     console.log("false Jin zheli ")
     //     next();
     // }
-    // 
-    next()
+    
+    // 假如是web页面的，就不需要token，其他页面全部需要token
+    if(req.url.search('/web/')!= -1){
+        next()
+    }else{
+        let token = req.headers.token;
+        const result = Token.decrypt(token);
+        if (result.token) {
+            next();
+        } else {
+            res.send({
+                code: '888',
+                message: "登录失效，请重新登录"
+            })
+        }
+    }
+
+    // next()
 });
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles')
 var blogRouter = require('./routes/blog')
 var sysRouter = require('./routes/system.js')
+var webRouter = require('./routes/web.js')
 app.use('/api', indexRouter);
 app.use('/api/user', usersRouter);
 app.use('/api/articles', articlesRouter)
 app.use('/api/blog', blogRouter)
 app.use('/api/systems', sysRouter)
+app.use('/api/web',webRouter)//直接就可以用，不需要token的页面
 let history = require('connect-history-api-fallback');
 
 app.use(history({
